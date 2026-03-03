@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
 import MarqueeBar from '../components/MarqueeBar';
 
-const pageStyle = {
-  minHeight: '100vh',
-  backgroundColor: '#0a0a1a',
-  padding: '30px 20px',
+/* ── tokens ─────────────────────────────────── */
+const G = '#f0c040';
+const O = '#ff7040';
+const GN = '#4cda70';
+
+const card = {
+  background: 'rgba(12, 26, 56, 0.72)',
+  border: '1px solid rgba(240, 192, 64, 0.38)',
+  borderRadius: '8px',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 18px rgba(240,192,64,0.22)',
+  backdropFilter: 'blur(14px)',
+  WebkitBackdropFilter: 'blur(14px)',
+  padding: '24px',
+  marginBottom: '24px',
 };
 
-const boxStyle = {
-  border: '3px solid #ffd700',
-  boxShadow: '5px 5px 0px #000, 9px 9px 0px #8b6914',
-  backgroundColor: '#0d1b2a',
-  padding: '25px',
-  marginBottom: '25px',
+const bodyText = {
+  fontFamily: "'Inter', sans-serif",
+  fontSize: '14px',
+  lineHeight: '1.7',
+  color: 'rgba(228,216,192,0.85)',
+};
+
+const sectionTitle = {
+  fontFamily: "'Press Start 2P', monospace",
+  fontSize: '10px',
+  color: G,
+  textShadow: `0 0 14px rgba(240,192,64,0.5)`,
+  marginBottom: '16px',
+  paddingBottom: '10px',
+  borderBottom: `1px solid rgba(240,192,64,0.3)`,
+  lineHeight: '1.6',
 };
 
 const faqs = [
@@ -24,47 +44,75 @@ const faqs = [
   { q: 'What if I face any issue or discrimination?', a: 'Reach out to any HEIHA executive committee member immediately. We have protocols in place and connections with college administration. You are protected and supported.' },
 ];
 
+/* ── hover-aware useful link ─────────────────── */
+function UsefulLink({ link }) {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <a
+      key={link.label}
+      href={link.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        background: 'rgba(20,36,22,0.75)',
+        border: hovered ? '1px solid rgba(76,218,112,0.65)' : '1px solid rgba(76,218,112,0.3)',
+        borderRadius: '6px',
+        padding: '10px 12px',
+        color: GN,
+        textDecoration: 'none',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '13px',
+        fontWeight: '500',
+        boxShadow: hovered ? '0 0 12px rgba(76,218,112,0.25)' : 'none',
+        transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <span>{link.icon}</span>
+      <span>{link.label}</span>
+    </a>
+  );
+}
+
 function StudentCorner() {
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div style={pageStyle}>
-      <MarqueeBar text="★ STUDENT CORNER ★ | Tips, info, and resources for new UVCE students ★ | Your seniors have got you covered ★" />
-      
+    <div style={{ minHeight: '100vh', padding: '30px 20px' }}>
+      <MarqueeBar text="★ STUDENT CORNER ★ · Tips, info, and resources for new UVCE students ★ · Your seniors have got you covered ★" />
+
       <div style={{ maxWidth: '1100px', margin: '30px auto 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: '18px',
-            color: '#ffd700',
-            textShadow: '4px 4px 0px #000, -2px -2px 0px #8b6914',
+            fontSize: 'clamp(14px, 2.5vw, 20px)',
+            color: G,
+            textShadow: `0 0 26px rgba(240,192,64,0.6), 3px 3px 0px rgba(0,0,0,0.6)`,
+            lineHeight: '1.5',
           }}>
-            ★ STUDENT CORNER ★
+            ★ Student Corner ★
           </h1>
           <p style={{
-            fontFamily: "'VT323', monospace",
-            fontSize: '20px',
-            color: '#ff6b35',
-            marginTop: '10px',
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: '11px',
+            fontWeight: '500',
+            letterSpacing: '1px',
+            color: O,
+            marginTop: '12px',
+            textTransform: 'uppercase',
           }}>
             Everything you need to know before and after arriving at UVCE
           </p>
         </div>
 
         {/* Tips for New Students */}
-        <div style={boxStyle}>
-          <h2 style={{
-            fontFamily: "'Press Start 2P', monospace",
-            fontSize: '12px',
-            color: '#ffd700',
-            textShadow: '2px 2px 0px #000',
-            marginBottom: '20px',
-            borderBottom: '2px solid #ffd700',
-            paddingBottom: '10px',
-          }}>
-            💡 TIPS FOR NEW STUDENTS
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
+        <div style={card}>
+          <h2 style={sectionTitle}>💡 Tips for New Students</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
             {[
               { icon: '📱', tip: 'Join the HEIHA WhatsApp Group', desc: 'First thing to do. Your seniors are there 24/7 to help with any questions.' },
               { icon: '🏠', tip: 'Hostel Application', desc: 'Apply for hostel as early as possible. Limited seats — NE students often get priority consideration.' },
@@ -74,194 +122,144 @@ function StudentCorner() {
               { icon: '💰', tip: 'Budget Wisely', desc: 'Create a monthly budget. Bangalore can be expensive. Seniors will show you affordable options for food, transport, and shopping.' },
             ].map((item) => (
               <div key={item.tip} style={{
-                border: '2px solid #8b6914',
-                backgroundColor: '#1a1a2a',
-                padding: '15px',
-                boxShadow: '3px 3px 0px #000',
+                background: 'rgba(20, 26, 50, 0.75)',
+                border: '1px solid rgba(240,192,64,0.22)',
+                borderRadius: '6px',
+                padding: '14px 16px',
+                backdropFilter: 'blur(8px)',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
               }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{item.icon}</div>
+                <div style={{ fontSize: '22px', marginBottom: '8px' }}>{item.icon}</div>
                 <div style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "'Orbitron', sans-serif",
                   fontSize: '9px',
-                  color: '#ffd700',
-                  marginBottom: '8px',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  color: G,
+                  marginBottom: '7px',
+                  textTransform: 'uppercase',
+                  lineHeight: '1.5',
                 }}>
                   {item.tip}
                 </div>
-                <p style={{
-                  fontFamily: "'VT323', monospace",
-                  fontSize: '18px',
-                  color: '#f0e6c8',
-                  lineHeight: '1.4',
-                }}>
-                  {item.desc}
-                </p>
+                <p style={{ ...bodyText, fontSize: '13px' }}>{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Important College Info */}
-        <div style={{ ...boxStyle, backgroundColor: '#1a0a2a', border: '3px solid #ff6b35', boxShadow: '5px 5px 0px #000, 9px 9px 0px #8b3214' }}>
-          <h2 style={{
-            fontFamily: "'Press Start 2P', monospace",
-            fontSize: '12px',
-            color: '#ff6b35',
-            textShadow: '2px 2px 0px #000',
-            marginBottom: '20px',
-            borderBottom: '2px solid #ff6b35',
-            paddingBottom: '10px',
-          }}>
-            🏫 IMPORTANT COLLEGE INFO
+        <div style={{
+          ...card,
+          background: 'rgba(22, 10, 48, 0.72)',
+          border: '1px solid rgba(255,112,64,0.4)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 22px rgba(255,112,64,0.22)',
+        }}>
+          <h2 style={{ ...sectionTitle, color: O, borderBottomColor: 'rgba(255,112,64,0.3)', textShadow: '0 0 14px rgba(255,112,64,0.5)' }}>
+            🏫 Important College Info
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-            <div>
-              <h3 style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: '9px',
-                color: '#ffd700',
-                marginBottom: '12px',
-              }}>
-                ACADEMIC CALENDAR
-              </h3>
-              <ul style={{
-                fontFamily: "'VT323', monospace",
-                fontSize: '19px',
-                lineHeight: '1.8',
-                color: '#f0e6c8',
-                paddingLeft: '20px',
-              }}>
-                <li>Semester 1 &amp; 2: Aug - May</li>
-                <li>Mid-term exams: October &amp; March</li>
-                <li>End-term exams: December &amp; May</li>
-                <li>Min. 75% attendance required</li>
-                <li>VTU exam registration is separate</li>
-              </ul>
-            </div>
-            <div>
-              <h3 style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: '9px',
-                color: '#ffd700',
-                marginBottom: '12px',
-              }}>
-                KEY OFFICES
-              </h3>
-              <ul style={{
-                fontFamily: "'VT323', monospace",
-                fontSize: '19px',
-                lineHeight: '1.8',
-                color: '#f0e6c8',
-                paddingLeft: '20px',
-              }}>
-                <li>Principal's Office: Main Block, 1st Floor</li>
-                <li>Student Welfare: Admin Block</li>
-                <li>Hostel Office: Near Boys Hostel</li>
-                <li>Library: Central Block</li>
-                <li>Health Center: Near Girls Hostel</li>
-              </ul>
-            </div>
-            <div>
-              <h3 style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: '9px',
-                color: '#ffd700',
-                marginBottom: '12px',
-              }}>
-                USEFUL APPS &amp; WEBSITES
-              </h3>
-              <ul style={{
-                fontFamily: "'VT323', monospace",
-                fontSize: '19px',
-                lineHeight: '1.8',
-                color: '#f0e6c8',
-                paddingLeft: '20px',
-              }}>
-                <li>VTU Website: vtu.ac.in</li>
-                <li>UVCE Official: uvce.ac.in</li>
-                <li>Namma Metro App</li>
-                <li>BMTC Bus Tracker</li>
-                <li>Google Pay / PhonePe for payments</li>
-              </ul>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            {[
+              {
+                title: 'Academic Calendar',
+                items: ['Semester 1 & 2: Aug – May', 'Mid-term exams: October & March', 'End-term exams: December & May', 'Min. 75% attendance required', 'VTU exam registration is separate'],
+              },
+              {
+                title: 'Key Offices',
+                items: ["Principal's Office: Main Block, 1st Floor", 'Student Welfare: Admin Block', 'Hostel Office: Near Boys Hostel', 'Library: Central Block', 'Health Center: Near Girls Hostel'],
+              },
+              {
+                title: 'Useful Apps & Websites',
+                items: ['VTU Website: vtu.ac.in', 'UVCE Official: uvce.ac.in', 'Namma Metro App', 'BMTC Bus Tracker', 'Google Pay / PhonePe for payments'],
+              },
+            ].map((section) => (
+              <div key={section.title}>
+                <h3 style={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontSize: '9px',
+                  fontWeight: '700',
+                  letterSpacing: '1px',
+                  color: G,
+                  textTransform: 'uppercase',
+                  marginBottom: '12px',
+                }}>
+                  {section.title}
+                </h3>
+                <ul style={{ ...bodyText, paddingLeft: '16px', lineHeight: '2' }}>
+                  {section.items.map(item => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* FAQ Section */}
-        <div style={boxStyle}>
-          <h2 style={{
-            fontFamily: "'Press Start 2P', monospace",
-            fontSize: '12px',
-            color: '#ffd700',
-            textShadow: '2px 2px 0px #000',
-            marginBottom: '20px',
-            borderBottom: '2px solid #ffd700',
-            paddingBottom: '10px',
-          }}>
-            ❓ FREQUENTLY ASKED QUESTIONS
-          </h2>
+        {/* FAQ */}
+        <div style={card}>
+          <h2 style={sectionTitle}>❓ Frequently Asked Questions</h2>
           {faqs.map((faq, index) => (
             <div key={index} style={{
-              border: '2px solid #8b6914',
-              marginBottom: '10px',
-              boxShadow: '2px 2px 0px #000',
+              border: '1px solid rgba(240,192,64,0.22)',
+              borderRadius: '6px',
+              marginBottom: '8px',
+              overflow: 'hidden',
             }}>
               <button
                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
                 style={{
                   width: '100%',
                   textAlign: 'left',
-                  backgroundColor: openFaq === index ? '#ffd700' : '#1a1a2a',
-                  color: openFaq === index ? '#0a0a1a' : '#ffd700',
+                  background: openFaq === index
+                    ? `linear-gradient(135deg, ${G} 0%, #c09828 100%)`
+                    : 'rgba(20,26,50,0.75)',
+                  color: openFaq === index ? '#060d1e' : 'rgba(228,216,192,0.9)',
                   border: 'none',
-                  padding: '12px 15px',
-                  fontFamily: "'VT323', monospace",
-                  fontSize: '20px',
+                  padding: '12px 16px',
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '14px',
+                  fontWeight: openFaq === index ? '600' : '400',
                   cursor: 'pointer',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  transition: 'background 0.2s ease',
                 }}
               >
                 <span>Q: {faq.q}</span>
                 <span style={{
                   fontFamily: "'Press Start 2P', monospace",
-                  fontSize: '10px',
+                  fontSize: '9px',
+                  flexShrink: 0,
+                  marginLeft: '12px',
                 }}>
                   {openFaq === index ? '[-]' : '[+]'}
                 </span>
               </button>
               {openFaq === index && (
                 <div style={{
-                  padding: '12px 15px',
-                  backgroundColor: '#0d1b2a',
-                  borderTop: '2px solid #8b6914',
-                  fontFamily: "'VT323', monospace",
-                  fontSize: '19px',
-                  color: '#f0e6c8',
-                  lineHeight: '1.6',
+                  padding: '12px 16px',
+                  background: 'rgba(12,26,56,0.6)',
+                  borderTop: '1px solid rgba(240,192,64,0.2)',
+                  ...bodyText,
+                  fontSize: '14px',
                 }}>
-                  <strong style={{ color: '#ffd700' }}>A:</strong> {faq.a}
+                  <strong style={{ color: G }}>A:</strong> {faq.a}
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        {/* Links Section */}
-        <div style={{ ...boxStyle, backgroundColor: '#0a1a0a', border: '3px solid #4caf50', boxShadow: '5px 5px 0px #000, 9px 9px 0px #1b5e20' }}>
-          <h2 style={{
-            fontFamily: "'Press Start 2P', monospace",
-            fontSize: '12px',
-            color: '#4caf50',
-            textShadow: '2px 2px 0px #000',
-            marginBottom: '20px',
-            borderBottom: '2px solid #4caf50',
-            paddingBottom: '10px',
-          }}>
-            🔗 USEFUL LINKS
+        {/* Useful Links */}
+        <div style={{
+          ...card,
+          background: 'rgba(8, 22, 12, 0.72)',
+          border: '1px solid rgba(76,218,112,0.35)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 18px rgba(76,218,112,0.18)',
+        }}>
+          <h2 style={{ ...sectionTitle, color: GN, borderBottomColor: 'rgba(76,218,112,0.3)', textShadow: '0 0 14px rgba(76,218,112,0.5)' }}>
+            🔗 Useful Links
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '10px' }}>
             {[
               { label: 'UVCE Official Website', url: 'http://uvce.ac.in', icon: '🏛️' },
               { label: 'VTU Portal', url: 'http://vtu.ac.in', icon: '📋' },
@@ -270,61 +268,35 @@ function StudentCorner() {
               { label: 'KVPY Fellowship', url: 'http://kvpy.iisc.ernet.in', icon: '🏆' },
               { label: 'Internshala Jobs', url: 'http://internshala.com', icon: '💼' },
             ].map((link) => (
-              <a
-                key={link.label}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  border: '2px solid #4caf50',
-                  backgroundColor: '#1a2a1a',
-                  padding: '10px 12px',
-                  boxShadow: '2px 2px 0px #000',
-                  color: '#4caf50',
-                  textDecoration: 'none',
-                  fontFamily: "'VT323', monospace",
-                  fontSize: '18px',
-                }}
-              >
-                <span>{link.icon}</span>
-                <span>{link.label}</span>
-              </a>
+              <UsefulLink key={link.label} link={link} />
             ))}
           </div>
         </div>
 
         {/* Contact Box */}
         <div style={{
-          border: '3px solid #ffd700',
-          backgroundColor: '#1a1a0a',
-          padding: '20px',
+          background: 'rgba(10, 16, 38, 0.72)',
+          border: '1px solid rgba(240,192,64,0.3)',
+          borderRadius: '8px',
+          padding: '22px',
           textAlign: 'center',
-          boxShadow: '5px 5px 0px #000',
+          backdropFilter: 'blur(14px)',
+          boxShadow: '0 8px 28px rgba(0,0,0,0.4), 0 0 14px rgba(240,192,64,0.15)',
         }}>
           <h3 style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: '11px',
-            color: '#ffd700',
-            marginBottom: '15px',
+            fontSize: '10px',
+            color: G,
+            textShadow: '0 0 12px rgba(240,192,64,0.5)',
+            marginBottom: '14px',
+            lineHeight: '1.6',
           }}>
-            📞 NEED HELP? CONTACT US!
+            📞 Need Help? Contact Us!
           </h3>
-          <p style={{
-            fontFamily: "'VT323', monospace",
-            fontSize: '20px',
-            color: '#f0e6c8',
-            marginBottom: '10px',
-          }}>
-            Email: heiha.uvce@gmail.com | WhatsApp: Ask any HEIHA member for the group link
+          <p style={{ ...bodyText, fontSize: '15px', marginBottom: '8px' }}>
+            Email: <span style={{ color: G }}>heiha.uvce@gmail.com</span> · WhatsApp: Ask any HEIHA member for the group link
           </p>
-          <p style={{
-            fontFamily: "'VT323', monospace",
-            fontSize: '18px',
-            color: '#a0a0a0',
-          }}>
+          <p style={{ ...bodyText, fontSize: '13px', color: 'rgba(136,152,184,0.75)' }}>
             We respond within 24 hours. For urgent matters, contact the President directly.
           </p>
         </div>

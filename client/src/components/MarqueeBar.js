@@ -3,20 +3,21 @@ import React from 'react';
 function MarqueeBar({ text }) {
   return (
     <div style={{
-      backgroundColor: '#8b0000',
-      borderTop: '3px solid #ffd700',
-      borderBottom: '3px solid #ffd700',
+      background: 'linear-gradient(90deg, #380000 0%, #820000 50%, #380000 100%)',
+      borderTop: '1px solid rgba(240, 192, 64, 0.4)',
+      borderBottom: '1px solid rgba(240, 192, 64, 0.4)',
       padding: '8px 0',
       overflow: 'hidden',
       whiteSpace: 'nowrap',
+      boxShadow: '0 0 20px rgba(130, 0, 0, 0.55)',
     }}>
       <span style={{
         display: 'inline-block',
         animation: 'marquee-scroll 25s linear infinite',
         fontFamily: "'Press Start 2P', monospace",
         fontSize: '10px',
-        color: '#ffd700',
-        textShadow: '2px 2px 0px #000',
+        color: '#f0c040',
+        textShadow: '0 0 12px rgba(240, 192, 64, 0.9)',
       }}>
         {text}
       </span>

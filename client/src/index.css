@@ -1,4 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-deep: #060d1e;
+  --bg-surface: rgba(10, 22, 48, 0.9);
+  --bg-card: rgba(12, 26, 56, 0.72);
+  --accent-gold: #f0c040;
+  --accent-gold-dim: rgba(240, 192, 64, 0.45);
+  --accent-orange: #ff7040;
+  --accent-cyan: #00ccee;
+  --text-primary: #e4d8c0;
+  --text-muted: #8898b8;
+  --glow-gold: 0 0 18px rgba(240, 192, 64, 0.38);
+  --glow-cyan: 0 0 18px rgba(0, 204, 238, 0.35);
+  --glow-orange: 0 0 18px rgba(255, 112, 64, 0.38);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --transition: all 0.22s ease;
+}
 
 * {
   box-sizing: border-box;
@@ -6,30 +24,31 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #0a0a1a;
-  color: #f0e6c8;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  background-image: 
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.15) 2px,
-      rgba(0, 0, 0, 0.15) 4px
-    );
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse at 15% 55%, rgba(8, 30, 90, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(55, 10, 90, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(8, 20, 60, 0.4) 0%, transparent 60%);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
   min-height: 100vh;
 }
 
 a {
-  color: #ffd700;
+  color: var(--accent-gold);
   text-decoration: none;
+  transition: var(--transition);
 }
 
 a:hover {
-  color: #ff6b35;
-  text-decoration: underline;
+  color: var(--accent-cyan);
+  text-decoration: none;
 }
 
 .retro-container {
@@ -39,72 +58,91 @@ a:hover {
 }
 
 .retro-box {
-  border: 3px solid #ffd700;
-  box-shadow: 4px 4px 0px #000, 8px 8px 0px #8b6914;
-  background-color: #0d1b2a;
-  padding: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-gold-dim);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), var(--glow-gold);
+  padding: 24px;
   margin: 20px 0;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: box-shadow 0.28s ease, transform 0.22s ease;
+}
+
+.retro-box:hover {
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.55), 0 0 28px rgba(240, 192, 64, 0.48);
+  transform: translateY(-2px);
 }
 
 .retro-title {
   font-family: 'Press Start 2P', monospace;
-  color: #ffd700;
-  text-shadow: 3px 3px 0px #000, -1px -1px 0px #8b6914;
+  color: var(--accent-gold);
+  text-shadow: 0 0 22px rgba(240, 192, 64, 0.65), 2px 2px 0px rgba(0, 0, 0, 0.8);
   margin-bottom: 15px;
+  line-height: 1.5;
 }
 
 .retro-subtitle {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Orbitron', sans-serif;
   font-size: 12px;
-  color: #ff6b35;
-  text-shadow: 2px 2px 0px #000;
+  font-weight: 600;
+  color: var(--accent-orange);
+  letter-spacing: 2px;
+  text-transform: uppercase;
   margin-bottom: 10px;
 }
 
 .retro-btn {
   display: inline-block;
-  background-color: #8b0000;
-  color: #ffd700;
-  border: 3px solid #ffd700;
-  padding: 10px 20px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  background: linear-gradient(135deg, #7a0000 0%, #4a0000 100%);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold-dim);
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 3px 3px 0px #000;
+  box-shadow: 0 4px 16px rgba(122, 0, 0, 0.45), var(--glow-gold);
   text-decoration: none;
-  transition: none;
+  transition: var(--transition);
 }
 
 .retro-btn:hover {
-  background-color: #ffd700;
-  color: #0a0a1a;
-  box-shadow: 5px 5px 0px #000;
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #c09828 100%);
+  color: #060d1e;
+  box-shadow: 0 6px 24px rgba(240, 192, 64, 0.55);
   text-decoration: none;
+  transform: translateY(-2px);
 }
 
 .pixel-divider {
   border: none;
-  border-top: 4px solid #ffd700;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
   margin: 20px 0;
-  box-shadow: 0 2px 0px #8b6914;
+  opacity: 0.5;
 }
 
 .marquee-container {
-  background-color: #8b0000;
-  border-top: 3px solid #ffd700;
-  border-bottom: 3px solid #ffd700;
+  background: linear-gradient(90deg, #3a0000 0%, #880000 50%, #3a0000 100%);
+  border-top: 1px solid var(--accent-gold-dim);
+  border-bottom: 1px solid var(--accent-gold-dim);
   padding: 8px 0;
   overflow: hidden;
   white-space: nowrap;
+  box-shadow: 0 0 18px rgba(136, 0, 0, 0.5);
 }
 
 .marquee-text {
   display: inline-block;
   animation: marquee-scroll 20s linear infinite;
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  color: #ffd700;
-  text-shadow: 2px 2px 0px #000;
+  font-size: 10px;
+  color: var(--accent-gold);
+  text-shadow: 0 0 12px rgba(240, 192, 64, 0.85);
 }
 
 @keyframes marquee-scroll {
@@ -131,9 +169,10 @@ a:hover {
   z-index: 9999;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 0, 0, 0.03) 0px,
-    rgba(0, 0, 0, 0.03) 1px,
+    rgba(0, 0, 0, 0.018) 0px,
+    rgba(0, 0, 0, 0.018) 1px,
     transparent 1px,
-    transparent 2px
+    transparent 3px
   );
+  mix-blend-mode: overlay;
 }
