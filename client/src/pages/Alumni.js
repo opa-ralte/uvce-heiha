@@ -143,7 +143,7 @@ function Alumni() {
                   color: '#ffd700',
                   boxShadow: '2px 2px 0px #000',
                 }}>
-                  Batch '{alum.batch.slice(2)}
+                  Batch '{String(alum.batch).length >= 3 ? String(alum.batch).slice(-2) : alum.batch}
                 </div>
                 <div style={{
                   width: '60px',
