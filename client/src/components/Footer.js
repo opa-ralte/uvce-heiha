@@ -42,7 +42,7 @@ function Footer() {
           fontSize: '8px',
           color: '#555',
         }}>
-          [ Visitor Count: 001337 ] [ Last Updated: 2024 ]
+          [ Visitor Count: 001337 ] [ Last Updated: {new Date().getFullYear()} ]
         </div>
       </div>
     </footer>
