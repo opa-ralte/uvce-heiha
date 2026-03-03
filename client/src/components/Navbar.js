@@ -62,6 +62,7 @@ function Navbar() {
     gap: '4px',
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   };
 
   const getLinkStyle = (path) => {
@@ -91,6 +92,24 @@ function Navbar() {
     };
   };
 
+  const adminLinkStyle = {
+    display: 'block',
+    padding: '5px 10px',
+    fontFamily: "'Orbitron', sans-serif",
+    fontSize: '8px',
+    fontWeight: '600',
+    letterSpacing: '0.5px',
+    color: hoveredLink === '/admin' ? '#060d1e' : 'rgba(0,204,238,0.65)',
+    background: hoveredLink === '/admin' ? 'rgba(0,204,238,0.8)' : 'transparent',
+    borderRadius: '4px',
+    border: '1px solid rgba(0,204,238,0.25)',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    textTransform: 'uppercase',
+    marginLeft: '4px',
+  };
+
   return (
     <nav style={navStyle}>
       <div style={innerStyle}>
@@ -110,6 +129,17 @@ function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              to="/admin"
+              style={adminLinkStyle}
+              onMouseEnter={() => setHoveredLink('/admin')}
+              onMouseLeave={() => setHoveredLink(null)}
+              title="Admin Portal"
+            >
+              ⚙️ Admin
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
