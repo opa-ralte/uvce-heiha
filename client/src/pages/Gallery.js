@@ -1,13 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import MarqueeBar from '../components/MarqueeBar';
 
-const pageStyle = {
-  minHeight: '100vh',
-  backgroundColor: '#0a0a1a',
-  padding: '30px 20px',
+/* ── tokens ─────────────────────────────────── */
+const G = '#f0c040';
+const O = '#ff7040';
+
+const card = {
+  background: 'rgba(12, 26, 56, 0.72)',
+  border: '1px solid rgba(240, 192, 64, 0.38)',
+  borderRadius: '8px',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 18px rgba(240,192,64,0.22)',
+  backdropFilter: 'blur(14px)',
+  WebkitBackdropFilter: 'blur(14px)',
+  padding: '24px',
+  marginBottom: '24px',
 };
 
 const categories = ['All', 'Cultural Events', 'Annual Fest', 'Sports', 'General', 'Academic'];
+
+/* ── hover-aware gallery card ────────────────── */
+function GalleryCard({ item }) {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <div
+      style={{
+        background: 'rgba(12,26,56,0.72)',
+        border: '1px solid rgba(240,192,64,0.32)',
+        borderRadius: '8px',
+        boxShadow: hovered
+          ? '0 12px 40px rgba(0,0,0,0.6), 0 0 24px rgba(240,192,64,0.38)'
+          : '0 8px 28px rgba(0,0,0,0.45), 0 0 14px rgba(240,192,64,0.15)',
+        backdropFilter: 'blur(12px)',
+        overflow: 'hidden',
+        transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
+        transition: 'box-shadow 0.25s ease, transform 0.2s ease',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Placeholder image */}
+      <div style={{
+        height: '170px',
+        background: `linear-gradient(135deg, ${item.color} 0%, rgba(0,0,0,0.85) 100%)`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        borderBottom: '1px solid rgba(240,192,64,0.25)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.1) 4px, rgba(0,0,0,0.1) 5px)',
+        }} />
+        <div style={{ fontSize: '36px', marginBottom: '4px', position: 'relative', zIndex: 1 }}>📸</div>
+        <div style={{
+          fontFamily: "'Press Start 2P', monospace",
+          fontSize: '7px',
+          color: 'rgba(255,255,255,0.45)',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          [ PHOTO ]
+        </div>
+      </div>
+      <div style={{ padding: '14px' }}>
+        <div style={{
+          background: 'linear-gradient(135deg, #7a0000 0%, #4a0000 100%)',
+          border: '1px solid rgba(240,192,64,0.35)',
+          borderRadius: '3px',
+          padding: '3px 8px',
+          display: 'inline-block',
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: '7px',
+          fontWeight: '600',
+          letterSpacing: '0.5px',
+          color: G,
+          marginBottom: '8px',
+          textTransform: 'uppercase',
+        }}>
+          {item.category}
+        </div>
+        <h3 style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: '14px',
+          fontWeight: '600',
+          color: G,
+          marginBottom: '5px',
+          lineHeight: '1.3',
+        }}>
+          {item.title}
+        </h3>
+        <p style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: '12px',
+          color: 'rgba(136,152,184,0.85)',
+          lineHeight: '1.5',
+        }}>
+          {item.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 
 function Gallery() {
   const [gallery, setGallery] = useState([]);
@@ -36,29 +134,33 @@ function Gallery() {
       });
   }, []);
 
-  const filtered = activeCategory === 'All' 
-    ? gallery 
+  const filtered = activeCategory === 'All'
+    ? gallery
     : gallery.filter(item => item.category === activeCategory);
 
   return (
-    <div style={pageStyle}>
-      <MarqueeBar text="★ HEIHA GALLERY ★ | Memories, celebrations, and community moments ★ | Culture, sports, and smiles ★" />
-      
+    <div style={{ minHeight: '100vh', padding: '30px 20px' }}>
+      <MarqueeBar text="★ HEIHA GALLERY ★ · Memories, celebrations, and community moments ★ · Culture, sports, and smiles ★" />
+
       <div style={{ maxWidth: '1100px', margin: '30px auto 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: '20px',
-            color: '#ffd700',
-            textShadow: '4px 4px 0px #000, -2px -2px 0px #8b6914',
+            fontSize: 'clamp(16px, 3vw, 22px)',
+            color: G,
+            textShadow: `0 0 26px rgba(240,192,64,0.6), 3px 3px 0px rgba(0,0,0,0.6)`,
+            lineHeight: '1.5',
           }}>
-            ★ GALLERY ★
+            ★ Gallery ★
           </h1>
           <p style={{
-            fontFamily: "'VT323', monospace",
-            fontSize: '20px',
-            color: '#ff6b35',
-            marginTop: '10px',
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: '11px',
+            fontWeight: '500',
+            letterSpacing: '1px',
+            color: O,
+            marginTop: '12px',
+            textTransform: 'uppercase',
           }}>
             Memories preserved in pixels — our community in action
           </p>
@@ -66,42 +168,54 @@ function Gallery() {
 
         {/* Category Filter */}
         <div style={{
-          border: '3px solid #ffd700',
-          boxShadow: '4px 4px 0px #000',
-          backgroundColor: '#0d1b2a',
-          padding: '15px 20px',
-          marginBottom: '25px',
+          ...card,
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '10px',
+          gap: '8px',
           alignItems: 'center',
+          padding: '16px 20px',
         }}>
           <span style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "'Orbitron', sans-serif",
             fontSize: '9px',
-            color: '#ffd700',
-            marginRight: '10px',
+            fontWeight: '700',
+            letterSpacing: '1.5px',
+            color: 'rgba(240,192,64,0.7)',
+            textTransform: 'uppercase',
+            marginRight: '6px',
           }}>
-            FILTER:
+            Filter:
           </span>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              style={{
-                backgroundColor: activeCategory === cat ? '#ffd700' : '#8b0000',
-                color: activeCategory === cat ? '#0a0a1a' : '#ffd700',
-                border: '2px solid #ffd700',
-                padding: '6px 12px',
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: '8px',
-                cursor: 'pointer',
-                boxShadow: '2px 2px 0px #000',
-              }}
-            >
-              {cat}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const active = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  background: active
+                    ? `linear-gradient(135deg, ${G} 0%, #c09828 100%)`
+                    : 'rgba(12,26,56,0.8)',
+                  color: active ? '#060d1e' : 'rgba(240,192,64,0.8)',
+                  border: active
+                    ? `1px solid ${G}`
+                    : '1px solid rgba(240,192,64,0.25)',
+                  borderRadius: '4px',
+                  padding: '6px 12px',
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontSize: '8px',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  boxShadow: active ? '0 0 14px rgba(240,192,64,0.45)' : 'none',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
 
         {/* Gallery Grid */}
@@ -109,11 +223,11 @@ function Gallery() {
           <div style={{
             textAlign: 'center',
             fontFamily: "'Press Start 2P', monospace",
-            fontSize: '12px',
-            color: '#ffd700',
+            fontSize: '11px',
+            color: G,
             padding: '40px',
           }}>
-            LOADING... <span className="blink">_</span>
+            Loading... <span className="blink">_</span>
           </div>
         ) : (
           <div style={{
@@ -122,105 +236,37 @@ function Gallery() {
             gap: '20px',
           }}>
             {filtered.map((item) => (
-              <div key={item.id} style={{
-                border: '3px solid #ffd700',
-                boxShadow: '4px 4px 0px #000, 7px 7px 0px #8b6914',
-                backgroundColor: '#0d1b2a',
-                overflow: 'hidden',
-              }}>
-                {/* Placeholder image box */}
-                <div style={{
-                  height: '180px',
-                  backgroundColor: item.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  borderBottom: '3px solid #ffd700',
-                  position: 'relative',
-                  background: `linear-gradient(135deg, ${item.color} 0%, #000 100%)`,
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: 0, left: 0, right: 0, bottom: 0,
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.2) 3px, rgba(0,0,0,0.2) 4px)',
-                  }}></div>
-                  <div style={{
-                    fontSize: '40px',
-                    marginBottom: '5px',
-                    position: 'relative',
-                    zIndex: 1,
-                  }}>
-                    📸
-                  </div>
-                  <div style={{
-                    fontFamily: "'Press Start 2P', monospace",
-                    fontSize: '8px',
-                    color: 'rgba(255,255,255,0.6)',
-                    position: 'relative',
-                    zIndex: 1,
-                  }}>
-                    [ PHOTO ]
-                  </div>
-                </div>
-                <div style={{ padding: '12px' }}>
-                  <div style={{
-                    backgroundColor: '#8b0000',
-                    border: '1px solid #ffd700',
-                    padding: '3px 8px',
-                    display: 'inline-block',
-                    fontFamily: "'Press Start 2P', monospace",
-                    fontSize: '7px',
-                    color: '#ffd700',
-                    marginBottom: '8px',
-                  }}>
-                    {item.category}
-                  </div>
-                  <h3 style={{
-                    fontFamily: "'VT323', monospace",
-                    fontSize: '20px',
-                    color: '#ffd700',
-                    marginBottom: '6px',
-                    lineHeight: '1.2',
-                  }}>
-                    {item.title}
-                  </h3>
-                  <p style={{
-                    fontFamily: "'VT323', monospace",
-                    fontSize: '16px',
-                    color: '#a0a0a0',
-                    lineHeight: '1.4',
-                  }}>
-                    {item.description}
-                  </p>
-                </div>
-              </div>
+              <GalleryCard key={item.id} item={item} />
             ))}
           </div>
         )}
 
         {/* Upload Notice */}
         <div style={{
-          border: '3px dashed #8b6914',
-          padding: '20px',
+          border: '1px dashed rgba(240,192,64,0.3)',
+          borderRadius: '8px',
+          padding: '22px',
           textAlign: 'center',
-          marginTop: '30px',
-          backgroundColor: '#1a1a0a',
+          marginTop: '28px',
+          background: 'rgba(10,16,38,0.55)',
         }}>
           <p style={{
             fontFamily: "'Press Start 2P', monospace",
             fontSize: '9px',
-            color: '#8b6914',
+            color: 'rgba(240,192,64,0.6)',
             marginBottom: '10px',
+            lineHeight: '1.6',
           }}>
-            📷 SUBMIT YOUR PHOTOS
+            📷 Submit Your Photos
           </p>
           <p style={{
-            fontFamily: "'VT323', monospace",
-            fontSize: '19px',
-            color: '#f0e6c8',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '14px',
+            color: 'rgba(228,216,192,0.75)',
+            lineHeight: '1.6',
           }}>
-            Have photos from HEIHA events? Send them to heiha.uvce@gmail.com 
+            Have photos from HEIHA events? Send them to{' '}
+            <span style={{ color: G }}>heiha.uvce@gmail.com</span>{' '}
             with the event name and date to be featured in our gallery!
           </p>
         </div>
