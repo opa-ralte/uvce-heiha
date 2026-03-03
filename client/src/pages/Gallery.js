@@ -16,11 +16,19 @@ const card = {
   marginBottom: '24px',
 };
 
-const categories = ['All', 'Cultural Events', 'Annual Fest', 'Sports', 'General', 'Academic'];
+const categories = ['All', 'Cultural Events', 'Annual Fest', 'Sports'];
+
+const getItemImages = (item) => {
+  if (Array.isArray(item.image)) return item.image;
+  if (item.image) return [item.image];
+  return [];
+};
 
 /* ── hover-aware gallery card ────────────────── */
-function GalleryCard({ item }) {
+function GalleryCard({ item, onOpenViewer }) {
   const [hovered, setHovered] = React.useState(false);
+  const images = getItemImages(item);
+  const hasImages = images.length > 0;
   return (
     <div
       style={{
@@ -41,68 +49,117 @@ function GalleryCard({ item }) {
       {/* Placeholder image */}
       <div style={{
         height: '170px',
-        background: `linear-gradient(135deg, ${item.color} 0%, rgba(0,0,0,0.85) 100%)`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        borderBottom: '1px solid rgba(240,192,64,0.25)',
-        position: 'relative',
         overflow: 'hidden',
+        position: 'relative',
+        borderBottom: '1px solid rgba(240,192,64,0.25)',
       }}>
-        <div style={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.1) 4px, rgba(0,0,0,0.1) 5px)',
-        }} />
-        <div style={{ fontSize: '36px', marginBottom: '4px', position: 'relative', zIndex: 1 }}>📸</div>
-        <div style={{
-          fontFamily: "'Press Start 2P', monospace",
-          fontSize: '7px',
-          color: 'rgba(255,255,255,0.45)',
-          position: 'relative',
-          zIndex: 1,
-        }}>
-          [ PHOTO ]
-        </div>
+        {hasImages ? (
+          <img
+            src={`http://localhost:5000${images[0]}`}
+            alt={item.title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.35s ease',
+              transform: hovered ? 'scale(1.07)' : 'scale(1)',
+              cursor: 'pointer',
+            }}
+            onClick={() => onOpenViewer(item, 0)}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        ) : (
+          <div style={{
+            height: '170px',
+            background: `linear-gradient(135deg, ${item.color} 0%, rgba(0,0,0,0.85) 100%)`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexDirection: 'column',
+          }}>
+            <div style={{ fontSize: '36px' }}>📸</div>
+          </div>
+        )}
+
+        {images.length > 1 && (
+          <button
+            onClick={() => onOpenViewer(item, 0)}
+            style={{
+              position: 'absolute',
+              right: '8px',
+              bottom: '8px',
+              background: 'rgba(6, 13, 30, 0.85)',
+              color: G,
+              border: '1px solid rgba(240,192,64,0.45)',
+              borderRadius: '999px',
+              padding: '3px 9px',
+              fontFamily: "'Orbitron', sans-serif",
+              fontSize: '8px',
+              letterSpacing: '0.6px',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+            }}
+          >
+            +{images.length - 1} More
+          </button>
+        )}
       </div>
-      <div style={{ padding: '14px' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #7a0000 0%, #4a0000 100%)',
-          border: '1px solid rgba(240,192,64,0.35)',
-          borderRadius: '3px',
-          padding: '3px 8px',
-          display: 'inline-block',
-          fontFamily: "'Orbitron', sans-serif",
-          fontSize: '7px',
-          fontWeight: '600',
-          letterSpacing: '0.5px',
-          color: G,
-          marginBottom: '8px',
-          textTransform: 'uppercase',
-        }}>
-          {item.category}
-        </div>
-        <h3 style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: '14px',
-          fontWeight: '600',
-          color: G,
-          marginBottom: '5px',
-          lineHeight: '1.3',
-        }}>
-          {item.title}
-        </h3>
-        <p style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: '12px',
-          color: 'rgba(136,152,184,0.85)',
-          lineHeight: '1.5',
-        }}>
-          {item.description}
-        </p>
+    <div style={{ padding: '14px' }}>
+      <div style={{
+        background: 'linear-gradient(135deg, #7a0000 0%, #4a0000 100%)',
+        border: '1px solid rgba(240,192,64,0.35)',
+        borderRadius: '3px',
+        padding: '3px 8px',
+        display: 'inline-block',
+        fontFamily: "'Orbitron', sans-serif",
+        fontSize: '7px',
+        fontWeight: '600',
+        letterSpacing: '0.5px',
+        color: G,
+        marginBottom: '8px',
+        textTransform: 'uppercase',
+      }}>
+        {item.category}
       </div>
+      <h3 style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '14px',
+        fontWeight: '600',
+        color: G,
+        marginBottom: '5px',
+        lineHeight: '1.3',
+      }}>
+        {item.title}
+      </h3>
+      <p style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '12px',
+        color: 'rgba(136,152,184,0.85)',
+        lineHeight: '1.5',
+      }}>
+        {item.description}
+      </p>
+      {images.length > 0 && (
+        <button
+          onClick={() => onOpenViewer(item, 0)}
+          style={{
+            marginTop: '10px',
+            background: 'linear-gradient(135deg, #7a0000 0%, #4a0000 100%)',
+            color: G,
+            border: '1px solid rgba(240,192,64,0.4)',
+            borderRadius: '4px',
+            padding: '6px 10px',
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: '8px',
+            fontWeight: '600',
+            letterSpacing: '0.6px',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
+        >
+          View Photos ({images.length})
+        </button>
+      )}
     </div>
+    </div >
   );
 }
 
@@ -111,6 +168,12 @@ function Gallery() {
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [viewer, setViewer] = useState({
+    open: false,
+    images: [],
+    index: 0,
+    title: '',
+  });
 
   useEffect(() => {
     fetch('/api/gallery')
@@ -124,11 +187,12 @@ function Gallery() {
           { id: 1, title: 'Chapchar Kut Celebration 2023', category: 'Cultural Events', color: '#8B0000', description: 'Annual spring festival celebration' },
           { id: 2, title: 'Annual Freshers Welcome 2023', category: 'Annual Fest', color: '#1a237e', description: 'Welcoming new students from Northeast India' },
           { id: 3, title: 'Mizo Night 2022', category: 'Cultural Events', color: '#4a148c', description: 'A magical evening of Mizo cultural performances' },
-          { id: 4, title: 'Sports Day 2023', category: 'Sports', color: '#1b5e20', description: 'Inter-community sports competition' },
+          { id: 4, title: 'One Day', category: 'Sports', color: '#1b5e20', description: 'Inter-community sports competition' },
           { id: 5, title: 'Farewell Party 2023', category: 'Annual Fest', color: '#e65100', description: 'Bidding farewell to graduating seniors' },
           { id: 6, title: 'NE Food Festival', category: 'Cultural Events', color: '#880e4f', description: 'A showcase of northeastern Indian cuisines' },
           { id: 7, title: 'Community Meeting 2023', category: 'General', color: '#006064', description: 'Annual general body meeting and elections' },
           { id: 8, title: 'Tech Fest Participation', category: 'Academic', color: '#37474f', description: 'HEIHA members at the annual college tech fest' },
+          { id: 9, title: 'Engineering Meet', category: 'Sports', color: '#1b5e20', description: 'Kum tin hian Engineering College hrang hrang Mizo awmna: AIT, PES Mandya leh UVCE te hian sports hrang hrang a in elna neih thin a ni' },
         ]);
         setLoading(false);
       });
@@ -137,6 +201,53 @@ function Gallery() {
   const filtered = activeCategory === 'All'
     ? gallery
     : gallery.filter(item => item.category === activeCategory);
+
+  const openViewer = (item, startIndex = 0) => {
+    const images = getItemImages(item);
+    if (images.length === 0) return;
+    setViewer({
+      open: true,
+      images,
+      index: startIndex,
+      title: item.title,
+    });
+  };
+
+  const closeViewer = () => {
+    setViewer({
+      open: false,
+      images: [],
+      index: 0,
+      title: '',
+    });
+  };
+
+  const goPrev = () => {
+    setViewer((prev) => ({
+      ...prev,
+      index: prev.index === 0 ? prev.images.length - 1 : prev.index - 1,
+    }));
+  };
+
+  const goNext = () => {
+    setViewer((prev) => ({
+      ...prev,
+      index: prev.index === prev.images.length - 1 ? 0 : prev.index + 1,
+    }));
+  };
+
+  useEffect(() => {
+    if (!viewer.open) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') closeViewer();
+      if (event.key === 'ArrowLeft') goPrev();
+      if (event.key === 'ArrowRight') goNext();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [viewer.open]);
 
   return (
     <div style={{ minHeight: '100vh', padding: '30px 20px' }}>
@@ -236,7 +347,7 @@ function Gallery() {
             gap: '20px',
           }}>
             {filtered.map((item) => (
-              <GalleryCard key={item.id} item={item} />
+              <GalleryCard key={item.id} item={item} onOpenViewer={openViewer} />
             ))}
           </div>
         )}
@@ -271,6 +382,128 @@ function Gallery() {
           </p>
         </div>
       </div>
+
+      {viewer.open && (
+        <div
+          onClick={closeViewer}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(3, 8, 20, 0.94)',
+            zIndex: 1200,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
+        >
+          <div
+            onClick={(event) => event.stopPropagation()}
+            style={{
+              width: 'min(900px, 100%)',
+              border: '1px solid rgba(240,192,64,0.35)',
+              borderRadius: '10px',
+              background: 'rgba(8,16,38,0.92)',
+              boxShadow: '0 14px 40px rgba(0,0,0,0.65)',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid rgba(240,192,64,0.22)',
+              padding: '10px 12px',
+            }}>
+              <div style={{
+                color: G,
+                fontFamily: "'Orbitron', sans-serif",
+                fontSize: '10px',
+                letterSpacing: '0.7px',
+                textTransform: 'uppercase',
+              }}>
+                {viewer.title} · {viewer.index + 1}/{viewer.images.length}
+              </div>
+              <button
+                onClick={closeViewer}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(240,192,64,0.35)',
+                  borderRadius: '4px',
+                  color: G,
+                  padding: '4px 8px',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{
+              position: 'relative',
+              height: 'min(70vh, 640px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(0,0,0,0.55)',
+            }}>
+              <img
+                src={`http://localhost:5000${viewer.images[viewer.index]}`}
+                alt={`${viewer.title} ${viewer.index + 1}`}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+
+              {viewer.images.length > 1 && (
+                <>
+                  <button
+                    onClick={goPrev}
+                    style={{
+                      position: 'absolute',
+                      left: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '999px',
+                      border: '1px solid rgba(240,192,64,0.5)',
+                      background: 'rgba(6,13,30,0.8)',
+                      color: G,
+                      cursor: 'pointer',
+                      fontSize: '18px',
+                    }}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={goNext}
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '999px',
+                      border: '1px solid rgba(240,192,64,0.5)',
+                      background: 'rgba(6,13,30,0.8)',
+                      color: G,
+                      cursor: 'pointer',
+                      fontSize: '18px',
+                    }}
+                  >
+                    ›
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
