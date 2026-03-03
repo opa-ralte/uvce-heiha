@@ -42,6 +42,10 @@ const faqs = [
   { q: 'How do I get a local SIM card?', a: 'Jio and Airtel are best for Bangalore. You will need your Aadhaar card or passport. HEIHA seniors can accompany you to the store to help with the process.' },
   { q: 'Where can I find NE food in Bangalore?', a: 'There are several NE restaurants near UVCE in the Indiranagar, Koramangala, and Ejipura areas. HEIHA seniors maintain an updated list — ask in the WhatsApp group!' },
   { q: 'What if I face any issue or discrimination?', a: 'Reach out to any HEIHA executive committee member immediately. We have protocols in place and connections with college administration. You are protected and supported.' },
+  { q:'Civil nen campus khatah in awm em?', a:'Civil engineering hi Jnanabharti campus-ah an awm a, hostelah an awm thei lo a, a nawlpuiin in an luah thin '},
+  { q:'ZB Laipi tih in hria em ?', a:'Aw hria e, UVCE Mizo Mech ah a thiam ber '},
+  { q:'Gym a awm em?', a:'Kan college ah hian gym chu a awm lo a, mahse hosteller tan hostel tang hla vak loh ah student tan gym tlawmte a awm, BU campus tan gym hi a free '}
+
 ];
 
 /* ── hover-aware useful link ─────────────────── */
@@ -262,7 +266,7 @@ function StudentCorner() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '10px' }}>
             {[
               { label: 'UVCE Official Website', url: 'http://uvce.ac.in', icon: '🏛️' },
-              { label: 'VTU Portal', url: 'http://vtu.ac.in', icon: '📋' },
+              { label: 'UUCMS', url: 'https://uucms.karnataka.gov.in/login/index', icon: '📋', description:'Tah hian result en thin ani' },
               { label: 'VTU Results', url: 'http://results.vtu.ac.in', icon: '📊' },
               { label: 'NPTEL Courses', url: 'http://nptel.ac.in', icon: '🎓' },
               { label: 'KVPY Fellowship', url: 'http://kvpy.iisc.ernet.in', icon: '🏆' },

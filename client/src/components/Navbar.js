@@ -110,6 +110,21 @@ function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              to="/admin/login"
+              style={{
+                ...getLinkStyle('/admin/login'),
+                fontSize: '9px',
+                padding: '6px 10px',
+              }}
+              onMouseEnter={() => setHoveredLink('/admin/login')}
+              onMouseLeave={() => setHoveredLink(null)}
+              title="Admin Portal"
+            >
+              ⚙️ Admin
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
